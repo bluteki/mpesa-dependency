@@ -2,6 +2,7 @@
     "name": "rafaelrogerio/mpesa-dependency",
     "description": "online payment manager using mpesa gateway",
     "type": "library",
+    "license": "GPL-3.0-or-later",
     "authors": [
         {
             "name": "Rafael Munguambe",
