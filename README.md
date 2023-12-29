@@ -1,4 +1,4 @@
-# PHP SSH
+# MPESA DEPENDENCY 
 
 Dependency for consumption of the mpesa api 
 
