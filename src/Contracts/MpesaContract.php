@@ -2,7 +2,7 @@
 
 namespace Bluteki\MpesaGateway\Contracts;
 
-interface MPesaContract {
+interface MpesaContract {
 
     /**
      * @param string $host

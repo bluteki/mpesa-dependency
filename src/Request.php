@@ -2,13 +2,13 @@
 
 namespace Bluteki\MpesaGateway;
 
-use Bluteki\MpesaGateway\Contracts\MPesaContract;
+use Bluteki\MpesaGateway\Contracts\MpesaContract;
 use GuzzleHttp\Client;
 use \GuzzleHttp\Exception\RequestException;
 use \GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\StreamInterface;
 
-class Request implements MPesaContract
+class Request implements MpesaContract
 {
 
     /**
@@ -60,7 +60,7 @@ class Request implements MPesaContract
      * @param string $status
      * @return MPesaContract
      */
-    public function setFake(bool $fake, int $code, string $status): MPesaContract
+    public function setFake(bool $fake, int $code, string $status): MpesaContract
     {
         $this->fake = $fake;
         $this->responseCode = $code;
