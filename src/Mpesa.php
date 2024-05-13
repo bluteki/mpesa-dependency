@@ -54,6 +54,19 @@ class Mpesa extends Config implements MPesaStaticContract {
         return (new static())->mPesa()->c2b( $amount, $msisdn, $transactionReference, $thirdPartyReference );
     }
 
+    /**
+     * Initiates a business to business (b2c) transaction on the M-Pesa API.
+     *
+     * @param float $amount
+     * @param string $msisdn
+     * @param string $transactionReference
+     * @param $thirdPartyReference
+     * @return mixed
+     */
+    public static function b2c(float $amount, string $msisdn, string $transactionReference, $thirdPartyReference) {
+        return (new static())->mPesa()->b2c($amount, $msisdn, $transactionReference, $thirdPartyReference);
+    }
+ 
     protected function mPesa()
     {
         $token = RSAToken::make(self::getApiKey(), self::getPublicKey());

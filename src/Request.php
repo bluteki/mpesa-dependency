@@ -3,7 +3,9 @@
 namespace Bluteki\MpesaGateway;
 
 use Bluteki\MpesaGateway\Contracts\MpesaContract;
+use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use \GuzzleHttp\Exception\RequestException;
 use \GuzzleHttp\Exception\ClientException;
 use Psr\Http\Message\StreamInterface;
@@ -81,6 +83,43 @@ class Request implements MpesaContract
         $client = $this->request(Mpesa::getPort());
 
         $request = new \GuzzleHttp\Psr7\Request('POST', '/ipg/v1x/c2bPayment/singleStage/', [
+            'Content-Type' => 'application/json',
+            'origin' => $this->origin,
+            'Authorization' => 'Bearer ' . $this->token,
+        ], json_encode($data));
+
+        try {
+            $response = $client->send($request);
+        } catch (ClientException $e) {
+            $response = $e->getResponse();
+        }
+
+        return new Transaction($this->streamToArray($response->getBody()));
+    }
+
+    /**
+     * Initiates a business to business (b2c) transaction on the M-Pesa API.
+     *
+     * @param float $amount
+     * @param string $msisdn
+     * @param string $transactionReference
+     * @param $thirdPartyReference
+     * @return Transaction
+     * @throws Exception|GuzzleException
+     */
+    public function b2c(string $amount, string $msisdn, string $transactionReference, $thirdPartyReference) {
+
+        $data = [
+            "input_TransactionReference" => $transactionReference,
+            "input_CustomerMSISDN" => $msisdn,
+            "input_Amount" => $amount,
+            "input_ThirdPartyReference" => $thirdPartyReference,
+            "input_ServiceProviderCode" => $this->serviceProviderCode
+        ];
+
+        $client = $this->request('18345');
+
+        $request = new \GuzzleHttp\Psr7\Request('POST', '/ipg/v1x/b2cPayment/', [
             'Content-Type' => 'application/json',
             'origin' => $this->origin,
             'Authorization' => 'Bearer ' . $this->token,
